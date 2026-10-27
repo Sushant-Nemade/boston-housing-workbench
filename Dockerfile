@@ -8,7 +8,7 @@ COPY src/boston_housing/artifacts src/boston_housing/artifacts
 RUN npm --prefix frontend run build
 
 FROM python:3.13-slim AS package
-COPY --from=ghcr.io/astral-sh/uv:0.13.0 /uv /usr/local/bin/uv
+COPY --from=ghcr.io/astral-sh/uv:0.13.4 /uv /usr/local/bin/uv
 WORKDIR /work
 COPY . .
 COPY --from=frontend /work/frontend/dist frontend/dist
