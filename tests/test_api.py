@@ -3,6 +3,10 @@ from fastapi.testclient import TestClient
 from boston_housing.contracts import FEATURES
 from boston_housing.web import create_app
 
+import asyncio
+
+from boston_housing.web import BodyLimit
+
 
 def payload():
     return {key: value["default"] for key, value in FEATURES.items()}
@@ -37,3 +41,25 @@ def test_adversarial_api_inputs_and_large_body():
         )
         assert client.get("/.env").status_code == 404
         assert client.get("/housepred.pkl").status_code == 404
+
+
+def test_streamed_body_is_bounded_without_trusting_content_length():
+    sent = []
+    called = []
+    messages = iter([
+        {"type": "http.request", "body": b"x" * 3000, "more_body": True},
+        {"type": "http.request", "body": b"x" * 2000, "more_body": False},
+    ])
+
+    async def receive():
+        return next(messages)
+
+    async def send(message):
+        sent.append(message)
+
+    async def downstream(scope, receive, send):
+        called.append(True)
+
+    asyncio.run(BodyLimit(downstream)({"type": "http", "headers": []}, receive, send))
+    assert not called
+    assert sent[0]["status"] == 413

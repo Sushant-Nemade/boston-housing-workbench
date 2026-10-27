@@ -3,6 +3,7 @@ on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
 permissions:
   contents: read
 concurrency:
@@ -91,3 +92,18 @@ jobs:
       - run: uv run --frozen python -m boston_housing.train --output build/reproduced
       - run: |
           uv run --frozen python -c "import json; from pathlib import Path; expected=json.loads(Path('src/boston_housing/artifacts/report.json').read_text()); actual=json.loads(Path('build/reproduced/report.json').read_text()); assert expected['splits']==actual['splits']; assert abs(expected['evaluation']['test']['mae_kusd']-actual['evaluation']['test']['mae_kusd'])<0.005; assert actual['evaluation']['onnx_max_error_kusd']<0.002; print('Pinned data, split membership, held-out metric and ONNX parity reproduced')"
+  container:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t boston-research .
+      - run: docker run --rm boston-research python -c "import os; assert os.getuid()!=0; from boston_housing.runtime import Predictor; print(Predictor().report['model'])"
+      - run: |
+          docker run -d --name boston-research -p 127.0.0.1:8897:8000 boston-research
+          curl --fail --retry 8 --retry-all-errors --connect-timeout 3 --max-time 5 --retry-max-time 60 --retry-delay 1 http://127.0.0.1:8897/api/health
+          curl --fail http://127.0.0.1:8897/
+      - if: always()
+        run: |
+          docker logs boston-research || true
+          docker rm -f boston-research || true

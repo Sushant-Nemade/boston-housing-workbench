@@ -86,7 +86,7 @@ uv run --frozen python scripts/verify_release.py
 The local load check measures **1,000 total synthetic journeys**, not 1,000
 simultaneous humans or browsers. Each journey checks health, real ONNX prediction,
 and denial of a legacy artifact: 3,000 observed requests, peak 16 active journeys,
-zero failed journeys in the recorded Windows run. P95 1.59 s, P99 2.00 s with
+zero failed journeys in the recorded Windows run. P95 1.41 s, P99 1.62 s with
 tracing enabled. Python traced allocation peak excludes native ONNX memory.
 See [artifacts/load-report.json](artifacts/load-report.json). No public endpoints
 or third-party services are load-tested. Results are hardware/profile-specific.

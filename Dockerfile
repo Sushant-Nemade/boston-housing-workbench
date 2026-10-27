@@ -8,10 +8,11 @@ COPY src/boston_housing/artifacts src/boston_housing/artifacts
 RUN npm --prefix frontend run build
 
 FROM python:3.13-slim AS package
+COPY --from=ghcr.io/astral-sh/uv:0.13.0 /uv /usr/local/bin/uv
 WORKDIR /work
 COPY . .
 COPY --from=frontend /work/frontend/dist frontend/dist
-RUN python scripts/package_site.py && pip wheel --no-cache-dir --wheel-dir /wheels .
+RUN python scripts/package_site.py && uv export --frozen --no-dev --no-emit-project --format requirements-txt --output-file /tmp/requirements.txt && pip wheel --no-cache-dir --require-hashes --wheel-dir /wheels -r /tmp/requirements.txt && pip wheel --no-cache-dir --no-deps --wheel-dir /wheels .
 
 FROM python:3.13-slim
 RUN useradd --create-home --uid 10001 researcher
