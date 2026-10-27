@@ -10,6 +10,7 @@ This is a scoped engineering review, not a penetration-test certification.
 | Positional JSON inputs silently depend on key order | Canonical named eleven-feature contract | Reordered JSON unit test and actual browser/sklearn parity |
 | Unknown/excluded fields silently ignored | Strict unknown-field rejection | Four tests observed RED then GREEN; B, LSTAT, target and prototype-like extras rejected |
 | Unbounded API/data/model allocations | Streaming 4 KB request cap; pre-read data/model/report limits; fixed checksum download | Invalid/oversized request tests; modified data/model rejection |
+| Premature disconnect cancelled installed static responses | Replay buffered request messages, then await the real ASGI receive event | Clean-wheel UI smoke exposed the failure; static response regression observed RED then GREEN |
 | Historical rows could leak into parity fixtures | Replaced dataset-row probes with deterministic authored inputs | Fixture regeneration and sklearn/ONNX/browser parity |
 | CSV/local storage untrusted | Size/row bounds, strict numeric schema, formula-safe CSV export, text-only rendering | Browser CSV rejection/persistence tests; no HTML rendering of stored/imported content |
 | Legacy deployment bypassed verification | Removed machine-specific Netlify configuration; exact owner-push SHA Pages gate | Cross-platform verify workflow and deployment condition |

@@ -46,10 +46,12 @@ def test_adversarial_api_inputs_and_large_body():
 def test_streamed_body_is_bounded_without_trusting_content_length():
     sent = []
     called = []
-    messages = iter([
-        {"type": "http.request", "body": b"x" * 3000, "more_body": True},
-        {"type": "http.request", "body": b"x" * 2000, "more_body": False},
-    ])
+    messages = iter(
+        [
+            {"type": "http.request", "body": b"x" * 3000, "more_body": True},
+            {"type": "http.request", "body": b"x" * 2000, "more_body": False},
+        ]
+    )
 
     async def receive():
         return next(messages)
@@ -63,3 +65,14 @@ def test_streamed_body_is_bounded_without_trusting_content_length():
     asyncio.run(BodyLimit(downstream)({"type": "http", "headers": []}, receive, send))
     assert not called
     assert sent[0]["status"] == 413
+
+
+def test_static_response_is_not_cancelled_after_body_replay(tmp_path, monkeypatch):
+    from boston_housing import web
+
+    (tmp_path / "index.html").write_text("<h1>Historical research site</h1>", encoding="utf-8")
+    monkeypatch.setattr(web, "SITE", tmp_path)
+    with TestClient(web.create_app()) as client:
+        response = client.get("/")
+        assert response.status_code == 200
+        assert "Historical research site" in response.text

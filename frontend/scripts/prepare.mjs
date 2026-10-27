@@ -32,6 +32,7 @@ if (existsSync(inventory)) {
       notices: await Promise.all(files.map(async (file) => ({ file, text: await readFile(path.join(legal, file), "utf8") }))) });
   }
   records.push({ name: "Boston skyline from Longfellow Bridge September 2017 panorama 2.jpg", creator: "King of Hearts", license: "CC BY-SA 4.0", source: "https://commons.wikimedia.org/wiki/File:Boston_skyline_from_Longfellow_Bridge_September_2017_panorama_2.jpg", licenseURL: "https://creativecommons.org/licenses/by-sa/4.0/", modifications: "Wikimedia thumbnail resizing and responsive display cropping; image remains CC BY-SA 4.0." });
+  records.push({ name: "Airbnb Price Workbench reused asset-loading/build patterns", license: "MIT", source: "https://github.com/Sushant-Nemade/airbnb-price-workbench", notices: [{ file: "airbnb-workbench-MIT.txt", text: await readFile(path.join(frontend, "legal/airbnb-workbench-MIT.txt"), "utf8") }] });
   for (const target of targets) await writeFile(path.join(target, "licenses.json"), JSON.stringify(records, null, 2));
   console.log(`Preserved ${records.length} bundled dependency/photo notice records.`);
 }

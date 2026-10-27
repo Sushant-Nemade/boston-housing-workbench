@@ -44,7 +44,7 @@ class BodyLimit:
         async def replay():
             if messages:
                 return messages.pop(0)
-            return {"type": "http.disconnect"}
+            return await receive()
 
         await self.app(scope, replay, send)
 
