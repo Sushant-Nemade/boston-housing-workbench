@@ -1,0 +1,93 @@
+name: Verify Boston Housing
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+concurrency:
+  group: verify-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  verify:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {os: ubuntu-latest, python: '3.11'}
+          - {os: ubuntu-latest, python: '3.13'}
+          - {os: windows-latest, python: '3.13'}
+    runs-on: ${{ matrix.os }}
+    env:
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: '0.13.0'
+      - run: uv sync --frozen
+      - run: uv run --frozen pytest -q --junitxml=build/unit-integration.xml
+      - run: uv run --frozen ruff check src tests scripts
+      - run: npm --prefix frontend ci --ignore-scripts
+      - run: npm --prefix frontend run build
+      - run: uv run --frozen python scripts/package_site.py
+      - run: uv run --frozen python -m build
+      - run: uv run --frozen python scripts/verify_release.py
+      - uses: actions/upload-artifact@v4
+        if: matrix.os == 'ubuntu-latest' && matrix.python == '3.13'
+        with:
+          name: boston-housing-release
+          path: dist/*
+  browser-security-load:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: '0.13.0'
+      - run: uv sync --frozen
+      - run: npm --prefix frontend ci --ignore-scripts
+      - run: npm --prefix frontend run build
+      - run: node frontend/node_modules/@playwright/test/cli.js install chromium --with-deps
+      - run: node frontend/node_modules/@playwright/test/cli.js test --config frontend/playwright.config.ts --reporter=line
+      - run: uv run --frozen python -m boston_housing.loadcheck --output build/load-report.json
+      - run: uv run --frozen pip-audit
+      - run: npm --prefix frontend audit
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: boston-browser-load-evidence
+          path: |
+            build/load-report.json
+            frontend/test-results
+  reproduce:
+    runs-on: ubuntu-latest
+    env:
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: '0.13.0'
+      - run: uv sync --frozen
+      - run: uv run --frozen python -m boston_housing.train --output build/reproduced
+      - run: |
+          uv run --frozen python -c "import json; from pathlib import Path; expected=json.loads(Path('src/boston_housing/artifacts/report.json').read_text()); actual=json.loads(Path('build/reproduced/report.json').read_text()); assert expected['splits']==actual['splits']; assert abs(expected['evaluation']['test']['mae_kusd']-actual['evaluation']['test']['mae_kusd'])<0.005; assert actual['evaluation']['onnx_max_error_kusd']<0.002; print('Pinned data, split membership, held-out metric and ONNX parity reproduced')"

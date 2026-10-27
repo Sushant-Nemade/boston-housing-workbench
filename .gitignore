@@ -1,4 +1,13 @@
 # Byte-compiled / optimized / DLL files
+.venv/
+node_modules/
+frontend/dist/
+frontend/public/model.onnx
+frontend/public/report.json
+playwright-report/
+test-results/
+.ruff_cache/
+src/boston_housing/site/
 __pycache__/
 *.py[cod]
 *$py.class

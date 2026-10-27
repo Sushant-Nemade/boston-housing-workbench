@@ -1,0 +1,51 @@
+{
+  "generated_at_utc": "2026-10-27T21:20:44.978752+00:00",
+  "scope": "Owned local in-process ASGI simulation; no external/public endpoints or paid providers contacted",
+  "workflows": 1000,
+  "configured_workers": 16,
+  "peak_active_workflows": 16,
+  "workflow_steps": [
+    "health",
+    "real ONNX prediction",
+    "legacy artifact denial"
+  ],
+  "workflow_requests_observed": 3000,
+  "status_counts": {
+    "200": 2000,
+    "404": 1000
+  },
+  "failed_workflows": 0,
+  "failures": [],
+  "journey_p95_ms": 1407.628105000185,
+  "journey_p99_ms": 1621.0439299981226,
+  "duration_seconds": 69.27416440000525,
+  "python_traced_peak_bytes": 4363345,
+  "memory_caveat": "Python traced allocations only, not process RSS or native ONNX memory",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.16",
+  "model_sha256": "83653257adb2324ecede66e81636ddb62b6668879db7f1bd93f988ddc035e552",
+  "adversarial_checks": [
+    {
+      "field": "B",
+      "expected": 422,
+      "actual": 422
+    },
+    {
+      "field": "LSTAT",
+      "expected": 422,
+      "actual": 422
+    },
+    {
+      "field": "MEDV",
+      "expected": 422,
+      "actual": 422
+    },
+    {
+      "field": "RM",
+      "expected": 422,
+      "actual": 422
+    }
+  ],
+  "limitations": "1,000 total synthetic journeys, NOT 1,000 simultaneous humans, browser clients, or a production capacity SLA.",
+  "passed": true
+}

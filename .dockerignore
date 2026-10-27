@@ -1,0 +1,17 @@
+.git
+.venv
+.cache
+.pytest_cache
+.ruff_cache
+frontend/node_modules
+frontend/dist
+frontend/test-results
+frontend/playwright-report
+src/boston_housing/site
+dist
+build
+*.pkl
+*.ipynb
+catboost_info
+Output
+.ipynb_checkpoints

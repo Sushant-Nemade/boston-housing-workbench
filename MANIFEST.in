@@ -1,0 +1,14 @@
+include README.md LICENSE NOTICE.md pyproject.toml uv.lock requirements.txt Dockerfile .dockerignore app.py Procfile
+recursive-include src *.py *.typed *.json *.onnx *.html *.css *.js *.mjs *.wasm *.woff *.woff2 *.jpg *.txt LICENSE
+recursive-include frontend *.ts *.css *.html *.json *.mjs *.jpg *.txt
+recursive-include tests *.py
+recursive-include scripts *.py
+recursive-include docs *.md
+recursive-include .github *.yml
+prune frontend/node_modules
+prune frontend/dist
+prune frontend/test-results
+prune frontend/playwright-report
+prune .venv
+prune .cache
+global-exclude *.pkl *.pyc

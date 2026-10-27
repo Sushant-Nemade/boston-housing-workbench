@@ -1,0 +1,40 @@
+[project]
+name = "boston-housing-workbench"
+version = "0.1.0"
+description = "Historical Boston Housing research benchmark with safe browser inference"
+requires-python = ">=3.11"
+readme = "README.md"
+license = "GPL-3.0-only"
+license-files = ["LICENSE", "NOTICE.md"]
+dependencies = [
+  "numpy>=2.4,<3", "scipy>=1.17,<2", "scikit-learn>=1.9,<2",
+  "onnx>=1.23,<2", "skl2onnx>=1.20,<2", "onnxruntime>=1.31,<2",
+  "pydantic>=2.14,<3", "fastapi>=0.143.3,<0.144", "uvicorn>=0.54,<0.55",
+]
+
+[project.scripts]
+boston-housing = "boston_housing.web:main"
+
+[dependency-groups]
+dev = ["pytest>=9,<10", "ruff>=0.15,<0.16", "build>=1.4,<2", "pip-audit>=2.10,<3", "httpx2>=2.15.1"]
+
+[build-system]
+requires = ["setuptools>=82", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools]
+include-package-data = false
+
+[tool.setuptools.package-data]
+boston_housing = ["artifacts/*", "site/*", "site/assets/*", "site/legal/*"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 110
