@@ -1,0 +1,144 @@
+{
+  "schema_version": 1,
+  "repository": "Sushant-Nemade/boston-housing-workbench",
+  "source_sha": "58925577f077519b33fe7b319143e0a0302488fa",
+  "berlin_date": "2026-11-03",
+  "run_id": "41692526010",
+  "status": "no-safe-change",
+  "stages": [
+    {
+      "name": "baseline-unit-and-integration",
+      "command": [
+        "python",
+        "-m",
+        "pytest",
+        "tests"
+      ],
+      "exit_code": 0,
+      "junit": {
+        "cases": 30,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 30
+      },
+      "evidence_sha256": "0c2d8c133562f43693242322b1723f1c0a70db114f79193a6beac9c3b2f997c2"
+    },
+    {
+      "name": "baseline-integration",
+      "command": [
+        "python",
+        "-m",
+        "pytest",
+        "tests/test_api.py"
+      ],
+      "exit_code": 0,
+      "junit": {
+        "cases": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 4
+      },
+      "evidence_sha256": "a2954b59df6f044177f992b5af95830e5fc5c38c3dd006fbd6d94882fa9fcfd8"
+    }
+  ],
+  "model": {
+    "name": "Qwen2.5-Coder-1.5B-Instruct-GGUF",
+    "revision": "f86cb2c1fa58255f8052cc32aeede1b7482d4361",
+    "sha256": "cc324af070c2ecbfd324a30884d2f951a7ff756aba85cb811a6ec436933bb046",
+    "license": "Apache-2.0",
+    "paid_api_requests": 0
+  },
+  "policy": {
+    "human_merge_required": false,
+    "automatic_production_merge": true,
+    "max_repairs": 2,
+    "max_generation_calls": 7,
+    "per_call_token_limit": 1700,
+    "max_pipeline_seconds": 2700,
+    "independent_ci_required": true
+  },
+  "load": {
+    "generated_at_utc": "2026-11-03T18:20:32.094358+00:00",
+    "scope": "Owned local in-process ASGI simulation; no external/public endpoints or paid providers contacted",
+    "workflows": 1000,
+    "configured_workers": 16,
+    "peak_active_workflows": 16,
+    "workflow_steps": [
+      "health",
+      "real ONNX prediction",
+      "legacy artifact denial"
+    ],
+    "workflow_requests_observed": 3000,
+    "status_counts": {
+      "200": 2000,
+      "404": 1000
+    },
+    "failed_workflows": 0,
+    "failures": [],
+    "journey_p95_ms": 250.27643029999211,
+    "journey_p99_ms": 268.7301255699964,
+    "duration_seconds": 13.868636812999995,
+    "python_traced_peak_bytes": 7243257,
+    "memory_caveat": "Python traced allocations only, not process RSS or native ONNX memory",
+    "platform": "Linux-7.0.0-1017-azure-x86_64-with-glibc2.36",
+    "python": "3.13.18",
+    "model_sha256": "83653257adb2324ecede66e81636ddb62b6668879db7f1bd93f988ddc035e552",
+    "adversarial_checks": [
+      {
+        "field": "B",
+        "expected": 422,
+        "actual": 422
+      },
+      {
+        "field": "LSTAT",
+        "expected": 422,
+        "actual": 422
+      },
+      {
+        "field": "MEDV",
+        "expected": 422,
+        "actual": 422
+      },
+      {
+        "field": "RM",
+        "expected": 422,
+        "actual": 422
+      }
+    ],
+    "limitations": "1,000 total synthetic journeys, NOT 1,000 simultaneous humans, browser clients, or a production capacity SLA.",
+    "passed": true
+  },
+  "planning": {
+    "decision": {
+      "status": "candidate",
+      "summary": "The function does not handle the case where a feature name does not exist in the object."
+    },
+    "provenance": {
+      "role": "planning",
+      "engine": "llama.cpp CPU, no-network container",
+      "max_output_tokens": 1700,
+      "model_repository": "Qwen/Qwen2.5-Coder-1.5B-Instruct-GGUF",
+      "model_revision": "f86cb2c1fa58255f8052cc32aeede1b7482d4361",
+      "model_sha256": "cc324af070c2ecbfd324a30884d2f951a7ff756aba85cb811a6ec436933bb046",
+      "response_sha256": "24dd1437e0605d55e859801704666afb8d22651d57b2cc3ee63b465fa932fa61",
+      "response_bytes": 150
+    }
+  },
+  "author": {
+    "role": "author",
+    "engine": "llama.cpp CPU, no-network container",
+    "max_output_tokens": 1700,
+    "model_repository": "Qwen/Qwen2.5-Coder-1.5B-Instruct-GGUF",
+    "model_revision": "f86cb2c1fa58255f8052cc32aeede1b7482d4361",
+    "model_sha256": "cc324af070c2ecbfd324a30884d2f951a7ff756aba85cb811a6ec436933bb046",
+    "response_sha256": "4cbe7cad2930510c3dbd0fa9c7506cc2d9e62487aea457e3deac7a6f801775ae",
+    "response_bytes": 840
+  },
+  "detail": "The function already handles the case where a feature name does not exist in the object.",
+  "duration_seconds": 345.640378547,
+  "generated_at_utc": "2026-11-03T18:25:06.203793+00:00",
+  "published_at_utc": "2026-11-03T18:25:44.414357+00:00",
+  "run_url": "https://github.com/Sushant-Nemade/boston-housing-workbench/actions/runs/41692526010"
+}
