@@ -2,8 +2,8 @@
   "schema_version": 1,
   "repository": "Sushant-Nemade/boston-housing-workbench",
   "source_sha": "58925577f077519b33fe7b319143e0a0302488fa",
-  "berlin_date": "2026-11-03",
-  "run_id": "41692526010",
+  "berlin_date": "2026-11-10",
+  "run_id": "42876170909",
   "status": "no-safe-change",
   "stages": [
     {
@@ -22,7 +22,7 @@
         "skipped": 0,
         "passed": 30
       },
-      "evidence_sha256": "0c2d8c133562f43693242322b1723f1c0a70db114f79193a6beac9c3b2f997c2"
+      "evidence_sha256": "7176d900ff48f928d1a35fb5c1f176a6968169e9feb62f5e7ef7582e9bebd131"
     },
     {
       "name": "baseline-integration",
@@ -40,7 +40,7 @@
         "skipped": 0,
         "passed": 4
       },
-      "evidence_sha256": "a2954b59df6f044177f992b5af95830e5fc5c38c3dd006fbd6d94882fa9fcfd8"
+      "evidence_sha256": "f1e4a5699aa35f807c02e55887e77f5cea3e736274083bb6b50c875de4421e73"
     }
   ],
   "model": {
@@ -60,7 +60,7 @@
     "independent_ci_required": true
   },
   "load": {
-    "generated_at_utc": "2026-11-03T18:20:32.094358+00:00",
+    "generated_at_utc": "2026-11-10T18:33:51.229629+00:00",
     "scope": "Owned local in-process ASGI simulation; no external/public endpoints or paid providers contacted",
     "workflows": 1000,
     "configured_workers": 16,
@@ -77,12 +77,12 @@
     },
     "failed_workflows": 0,
     "failures": [],
-    "journey_p95_ms": 250.27643029999211,
-    "journey_p99_ms": 268.7301255699964,
-    "duration_seconds": 13.868636812999995,
+    "journey_p95_ms": 244.8715030499912,
+    "journey_p99_ms": 285.84809695000615,
+    "duration_seconds": 13.560096636999987,
     "python_traced_peak_bytes": 7243257,
     "memory_caveat": "Python traced allocations only, not process RSS or native ONNX memory",
-    "platform": "Linux-7.0.0-1017-azure-x86_64-with-glibc2.36",
+    "platform": "Linux-7.0.0-1019-azure-x86_64-with-glibc2.36",
     "python": "3.13.18",
     "model_sha256": "83653257adb2324ecede66e81636ddb62b6668879db7f1bd93f988ddc035e552",
     "adversarial_checks": [
@@ -137,8 +137,8 @@
     "response_bytes": 840
   },
   "detail": "The function already handles the case where a feature name does not exist in the object.",
-  "duration_seconds": 345.640378547,
-  "generated_at_utc": "2026-11-03T18:25:06.203793+00:00",
-  "published_at_utc": "2026-11-03T18:25:44.414357+00:00",
-  "run_url": "https://github.com/Sushant-Nemade/boston-housing-workbench/actions/runs/41692526010"
+  "duration_seconds": 339.265785123,
+  "generated_at_utc": "2026-11-10T18:38:12.254303+00:00",
+  "published_at_utc": "2026-11-10T18:38:27.422782+00:00",
+  "run_url": "https://github.com/Sushant-Nemade/boston-housing-workbench/actions/runs/42876170909"
 }
